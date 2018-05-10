@@ -16,9 +16,22 @@ class ApplicationController < ActionController::Base
     redirect_to new_user_url if current_user.nil? 
   end
   
+  def require_login_cats
+    redirect_to cats_url if current_user.nil?
+  end
+  
   def already_logged_in
     redirect_to cats_url if current_user
   end
   
+  def require_confirm_user
+    require_login_cats
+    redirect_to  cats_url unless current_user.cats.where(id: params[:user_id])
+  end
+  
+  def require_confirm_catrental
+    require_login_cats
+    redirect_to cats_url unless current_user.cat_rental_requests.where(id: params[:user_id])
+  end
   
 end

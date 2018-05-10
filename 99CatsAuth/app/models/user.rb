@@ -16,6 +16,12 @@ class User < ApplicationRecord
   validates :password_digest, presence: true
   before_validation :ensure_session_token
   
+  has_many :cats,
+  foreign_key: :user_id,
+  class_name: :Cat
+  
+  has_many :cat_rental_requests
+  
   attr_reader :password
   
   def password=(password)
